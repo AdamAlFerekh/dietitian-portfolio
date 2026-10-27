@@ -73,15 +73,16 @@ export default function About() {
           </h2>
 
           <p className="mt-6 text-base leading-8 text-[#737971] sm:mt-7 sm:text-lg sm:leading-9">
-            Nutrition and fitness are about more than following a plan. They
-            involve understanding your goals, finding a realistic approach, and
-            building habits that fit your life.
+            Nutrition and fitness are most effective when they fit the way you
+            live, train, and recover. A balanced approach focuses on sustainable
+            routines, practical habits, and realistic progress rather than
+            short-term perfection.
           </p>
 
           <p className="mt-4 text-sm leading-7 text-[#737971] sm:text-base sm:leading-8">
-            This introduction will be personalized with his real story,
-            education, professional experience, and philosophy once those
-            details are confirmed.
+            This fictional profile is designed to showcase a thoughtful, client-led
+            wellness philosophy rooted in education, consistency, and individualized
+            guidance for long-term health and confidence.
           </p>
 
           <div className="mt-8 border-y border-[#E7E9E5] py-5">

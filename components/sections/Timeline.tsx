@@ -1,48 +1,11 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { Award, BriefcaseBusiness, GraduationCap, Trophy } from "lucide-react";
-
-const milestones = [
-  {
-    number: "01",
-    category: "Education",
-    title: "Academic Background",
-    description: "Add his real degree, institution, and graduation year here.",
-    date: "Year to be added",
-    icon: GraduationCap,
-  },
-  {
-    number: "02",
-    category: "Certifications",
-    title: "Professional Certifications",
-    description:
-      "Add verified nutrition, fitness, or personal training certifications.",
-    date: "Year to be added",
-    icon: Award,
-  },
-  {
-    number: "03",
-    category: "Experience",
-    title: "Professional Experience",
-    description:
-      "Add his actual work experience, coaching background, and responsibilities.",
-    date: "Dates to be added",
-    icon: BriefcaseBusiness,
-  },
-  {
-    number: "04",
-    category: "Achievements",
-    title: "Milestones & Achievements",
-    description:
-      "Highlight genuine professional achievements and relevant accomplishments.",
-    date: "Year to be added",
-    icon: Trophy,
-  },
-];
+import { useTimelineViewModel } from "./timeline/viewModel";
 
 export default function Timeline() {
   const reduceMotion = useReducedMotion();
+  const { entries } = useTimelineViewModel();
 
   return (
     <section
@@ -72,8 +35,8 @@ export default function Timeline() {
           </h2>
 
           <p className="mx-auto mt-6 max-w-xl text-sm leading-7 text-[#737971] sm:text-base sm:leading-8">
-            Explore the education, qualifications, and experiences that shape
-            his approach to nutrition and fitness.
+            This sample timeline presents a fictional nutrition and fitness profile
+            designed for portfolio demo purposes.
           </p>
         </motion.div>
 
@@ -95,7 +58,7 @@ export default function Timeline() {
           />
 
           <div className="space-y-8 sm:space-y-12">
-            {milestones.map((milestone, index) => {
+            {entries.map((milestone, index) => {
               const Icon = milestone.icon;
               const isLeft = index % 2 === 0;
 

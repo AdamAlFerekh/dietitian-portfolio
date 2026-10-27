@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import {
   ArrowUpRight,
@@ -26,11 +25,8 @@ const navigation = [
 
 export default function Footer() {
   const reduceMotion = useReducedMotion();
-  const [currentYear, setCurrentYear] = useState<number | null>(null);
+  const currentYear = 2026;
 
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
   return (
     <footer className="overflow-hidden bg-[#242824] px-5 pb-6 pt-12 text-white sm:px-8 sm:pb-8 sm:pt-16 lg:px-12">
       <div className="mx-auto max-w-[1400px]">
@@ -117,71 +113,73 @@ export default function Footer() {
             </p>
 
             <div className="mt-5 space-y-4">
-              <a
-                href={
-                  WHATSAPP_NUMBER
-                    ? `https://wa.me/${WHATSAPP_NUMBER}`
-                    : "#contact"
-                }
-                target={WHATSAPP_NUMBER ? "_blank" : undefined}
-                rel={WHATSAPP_NUMBER ? "noopener noreferrer" : undefined}
-                aria-disabled={!WHATSAPP_NUMBER}
-                onClick={(event) => {
-                  if (!WHATSAPP_NUMBER) event.preventDefault();
-                }}
-                aria-label="Contact via WhatsApp"
-                className={`flex w-fit items-center gap-3 text-sm transition-colors ${
-                  WHATSAPP_NUMBER
-                    ? "text-white/65 hover:text-[#B7D99B]"
-                    : "cursor-not-allowed text-white/35"
-                }`}
-              >
-                <MessageCircle size={16} />
-                WhatsApp
-              </a>
+              {WHATSAPP_NUMBER ? (
+                <a
+                  href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Contact via WhatsApp"
+                  className="flex w-fit items-center gap-3 text-sm text-white/65 transition-colors hover:text-[#B7D99B]"
+                >
+                  <MessageCircle size={16} />
+                  WhatsApp
+                </a>
+              ) : (
+                <span
+                  aria-label="WhatsApp contact unavailable"
+                  className="flex w-fit cursor-default items-center gap-3 text-sm text-white/35"
+                >
+                  <MessageCircle size={16} />
+                  WhatsApp — demo unavailable
+                </span>
+              )}
 
-              <a
-                href={CONTACT_EMAIL ? `mailto:${CONTACT_EMAIL}` : "#contact"}
-                aria-disabled={!CONTACT_EMAIL}
-                onClick={(event) => {
-                  if (!CONTACT_EMAIL) event.preventDefault();
-                }}
-                aria-label="Contact via email"
-                className={`flex w-fit items-center gap-3 text-sm transition-colors ${
-                  CONTACT_EMAIL
-                    ? "text-white/65 hover:text-[#B7D99B]"
-                    : "cursor-not-allowed text-white/35"
-                }`}
-              >
-                <Mail size={16} />
-                Email
-              </a>
+              {CONTACT_EMAIL ? (
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  aria-label="Contact via email"
+                  className="flex w-fit items-center gap-3 text-sm text-white/65 transition-colors hover:text-[#B7D99B]"
+                >
+                  <Mail size={16} />
+                  Email
+                </a>
+              ) : (
+                <span
+                  aria-label="Email contact unavailable"
+                  className="flex w-fit cursor-default items-center gap-3 text-sm text-white/35"
+                >
+                  <Mail size={16} />
+                  Email — demo unavailable
+                </span>
+              )}
 
-              <a
-                href={INSTAGRAM_URL || "#contact"}
-                target={INSTAGRAM_URL ? "_blank" : undefined}
-                rel={INSTAGRAM_URL ? "noopener noreferrer" : undefined}
-                aria-disabled={!INSTAGRAM_URL}
-                onClick={(event) => {
-                  if (!INSTAGRAM_URL) event.preventDefault();
-                }}
-                aria-label="Instagram profile"
-                className={`flex w-fit items-center gap-3 text-sm transition-colors ${
-                  INSTAGRAM_URL
-                    ? "text-white/65 hover:text-[#B7D99B]"
-                    : "cursor-not-allowed text-white/35"
-                }`}
-              >
-                <Camera size={16} />
-                Instagram
-              </a>
+              {INSTAGRAM_URL ? (
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram profile"
+                  className="flex w-fit items-center gap-3 text-sm text-white/65 transition-colors hover:text-[#B7D99B]"
+                >
+                  <Camera size={16} />
+                  Instagram
+                </a>
+              ) : (
+                <span
+                  aria-label="Instagram profile unavailable"
+                  className="flex w-fit cursor-default items-center gap-3 text-sm text-white/35"
+                >
+                  <Camera size={16} />
+                  Instagram — demo unavailable
+                </span>
+              )}
             </div>
           </div>
         </motion.div>
 
         {/* Copyright */}
         <div className="flex flex-col gap-4 pt-5 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between sm:pt-6">
-          <p>© {currentYear ?? 2026} Tarek Al Ferekh. All rights reserved.</p>
+          <p>© {currentYear} Tarek Al Ferekh. All rights reserved.</p>
 
           <a
             href="#home"

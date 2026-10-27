@@ -1,79 +1,102 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowLeft, ArrowRight, Award, ExternalLink, X } from "lucide-react";
-
-const certificates = [
-  {
-    id: 1,
-    title: "Nutrition Certification",
-    issuer: "Issuing institution to be added",
-    category: "Nutrition",
-    year: "Year to be added",
-    description:
-      "Replace this placeholder with the name and details of a verified nutrition qualification.",
-    image: "",
-  },
-  {
-    id: 2,
-    title: "Personal Training Certification",
-    issuer: "Issuing institution to be added",
-    category: "Fitness",
-    year: "Year to be added",
-    description:
-      "Replace this placeholder with the name and details of a verified personal training qualification.",
-    image: "",
-  },
-  {
-    id: 3,
-    title: "Professional Development",
-    issuer: "Issuing institution to be added",
-    category: "Development",
-    year: "Year to be added",
-    description:
-      "Replace this placeholder with a real course, workshop, or professional development certificate.",
-    image: "",
-  },
-];
+import { useCertificatesViewModel } from "./certificates/viewModel";
 
 export default function Certificates() {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const {
+    certificates,
+    selectedCertificate,
+    selectedIndex,
+    openCertificate,
+    closeCertificate,
+    showPrevious,
+    showNext,
+  } = useCertificatesViewModel();
   const reduceMotion = useReducedMotion();
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const triggerButtonRef = useRef<HTMLButtonElement | null>(null);
 
-  const selected = selectedIndex === null ? null : certificates[selectedIndex];
+  const closeModal = useCallback(() => {
+    const triggerButton = triggerButtonRef.current;
 
-  function showPrevious() {
-    setSelectedIndex((current) =>
-      current === null
-        ? null
-        : (current - 1 + certificates.length) % certificates.length,
-    );
-  }
+    closeCertificate();
 
-  function showNext() {
-    setSelectedIndex((current) =>
-      current === null ? null : (current + 1) % certificates.length,
-    );
-  }
+    requestAnimationFrame(() => {
+      triggerButton?.focus();
+    });
+  }, [closeCertificate]);
 
   useEffect(() => {
     if (selectedIndex === null) return;
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setSelectedIndex(null);
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeModal();
+        return;
+      }
+
       if (event.key === "ArrowLeft") showPrevious();
       if (event.key === "ArrowRight") showNext();
+
+      if (event.key !== "Tab" || !dialogRef.current) return;
+
+      const focusableSelector = [
+        "button:not([disabled])",
+        "[href]",
+        "input:not([disabled])",
+        "select:not([disabled])",
+        "textarea:not([disabled])",
+        "[tabindex]:not([tabindex='-1'])",
+      ].join(", ");
+
+      const focusableElements = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(focusableSelector),
+      ).filter(
+        (element) => !element.hasAttribute("disabled") && element.tabIndex !== -1,
+      );
+
+      if (focusableElements.length === 0) {
+        event.preventDefault();
+        dialogRef.current.focus();
+        return;
+      }
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+      const activeElement = document.activeElement as HTMLElement | null;
+
+      if (event.shiftKey) {
+        if (activeElement === firstElement || !dialogRef.current.contains(activeElement)) {
+          event.preventDefault();
+          lastElement.focus();
+        }
+
+        return;
+      }
+
+      if (activeElement === lastElement || !dialogRef.current.contains(activeElement)) {
+        event.preventDefault();
+        firstElement.focus();
+      }
     }
 
     document.addEventListener("keydown", handleKeyDown);
     document.body.style.overflow = "hidden";
 
+    requestAnimationFrame(() => {
+      closeButtonRef.current?.focus();
+    });
+
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
-  }, [selectedIndex]);
+  }, [closeModal, selectedIndex, showNext, showPrevious]);
 
   return (
     <section
@@ -92,21 +115,21 @@ export default function Certificates() {
           <div className="mb-5 flex items-center justify-center gap-3">
             <span className="h-px w-9 bg-[#9BCB63]" />
             <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#737971] sm:text-xs">
-              Knowledge & qualifications
+              Demo portfolio
             </span>
             <span className="h-px w-9 bg-[#9BCB63]" />
           </div>
 
           <h2 className="text-4xl font-semibold leading-[1.08] tracking-[-0.055em] text-[#242824] sm:text-5xl lg:text-6xl">
-            Credentials that
+            Sample credentials
             <span className="mt-1 block font-normal text-[#789F3D]">
-              back the commitment.
+              for a fictional profile.
             </span>
           </h2>
 
           <p className="mx-auto mt-6 max-w-xl text-sm leading-7 text-[#737971] sm:text-base sm:leading-8">
-            Explore the qualifications and professional development that support
-            his work in nutrition and fitness.
+            These cards are illustrative demo content for a fictional portfolio and
+            are not real qualifications, institutions, or award records.
           </p>
         </motion.div>
 
@@ -124,7 +147,10 @@ export default function Certificates() {
                 delay: reduceMotion ? 0 : index * 0.08,
               }}
               whileHover={reduceMotion ? undefined : { y: -4 }}
-              onClick={() => setSelectedIndex(index)}
+              onClick={(event) => {
+                triggerButtonRef.current = event.currentTarget;
+                openCertificate(index);
+              }}
               aria-label={`View details for ${certificate.title}`}
               className="group overflow-hidden border border-[#E7E9E5] bg-white text-left transition-colors duration-300 hover:border-[#B7D99B] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#789F3D]"
             >
@@ -149,10 +175,10 @@ export default function Certificates() {
                       </div>
 
                       <p className="mt-4 text-sm font-medium text-[#242824]">
-                        Certificate preview
+                        Demo preview
                       </p>
                       <p className="mt-1 text-xs text-[#92988F]">
-                        Actual document to be added
+                        Sample material only
                       </p>
                     </div>
                   </>
@@ -198,27 +224,29 @@ export default function Certificates() {
         </div>
 
         <p className="mt-7 text-center text-xs leading-6 text-[#92988F]">
-          Certificate details and images are placeholders until verified
-          documents are provided.
+          This section uses sample portfolio content only. It does not represent
+          real certificates, institutions, or verified credentials.
         </p>
       </div>
 
       {/* Certificate lightbox */}
       <AnimatePresence>
-        {selected && (
+        {selectedCertificate && (
           <motion.div
             key="certificate-lightbox"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: reduceMotion ? 0 : 0.2 }}
-            onClick={() => setSelectedIndex(null)}
+            onClick={closeModal}
             className="fixed inset-0 z-[100] flex items-center justify-center bg-[#171C17]/75 p-4 backdrop-blur-sm sm:p-8"
             role="dialog"
             aria-modal="true"
             aria-labelledby="certificate-dialog-title"
           >
             <motion.div
+              ref={dialogRef}
+              tabIndex={-1}
               initial={
                 reduceMotion ? false : { opacity: 0, y: 16, scale: 0.99 }
               }
@@ -229,8 +257,9 @@ export default function Certificates() {
               className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-[#E7E9E5] bg-white p-5 shadow-2xl sm:p-8"
             >
               <button
+                ref={closeButtonRef}
                 type="button"
-                onClick={() => setSelectedIndex(null)}
+                onClick={closeModal}
                 aria-label="Close certificate details"
                 className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center border border-[#E7E9E5] bg-white text-[#242824] transition-colors hover:bg-[#F7F8F6]"
               >
@@ -239,26 +268,26 @@ export default function Certificates() {
 
               <div className="border-b border-[#E7E9E5] pb-5 pr-12">
                 <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#789F3D]">
-                  {selected.category}
+                  {selectedCertificate.category}
                 </span>
 
                 <h3
                   id="certificate-dialog-title"
                   className="mt-3 text-2xl font-semibold tracking-tight text-[#242824] sm:text-3xl"
                 >
-                  {selected.title}
+                  {selectedCertificate.title}
                 </h3>
 
                 <p className="mt-3 text-sm leading-6 text-[#737971]">
-                  {selected.issuer} · {selected.year}
+                  {selectedCertificate.issuer} · {selectedCertificate.year}
                 </p>
               </div>
 
               <div className="mt-6 flex min-h-56 items-center justify-center overflow-hidden border border-[#E7E9E5] bg-[#F7F8F6] p-5 sm:min-h-72">
-                {selected.image ? (
+                {selectedCertificate.image ? (
                   <Image
-                    src={selected.image}
-                    alt={`Full preview of ${selected.title}`}
+                    src={selectedCertificate.image}
+                    alt={`Full preview of ${selectedCertificate.title}`}
                     width={1200}
                     height={900}
                     sizes="(max-width: 672px) 100vw, 672px"
@@ -272,17 +301,18 @@ export default function Certificates() {
                       className="mx-auto text-[#789F3D]"
                     />
                     <p className="mt-4 font-medium text-[#242824]">
-                      Certificate image coming soon
+                      Demo image placeholder
                     </p>
                     <p className="mt-2 text-sm leading-6 text-[#737971]">
-                      Add the real certificate image when it is available.
+                      This preview is illustrative and not associated with a real
+                      credential document.
                     </p>
                   </div>
                 )}
               </div>
 
               <p className="mt-5 text-sm leading-7 text-[#737971]">
-                {selected.description}
+                {selectedCertificate.description}
               </p>
 
               <div className="mt-6 flex items-center justify-between border-t border-[#E7E9E5] pt-5">

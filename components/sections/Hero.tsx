@@ -12,7 +12,7 @@ export default function Hero() {
       id="home"
       className="relative overflow-hidden bg-white px-5 pb-14 pt-10 sm:px-8 sm:pb-20 sm:pt-14 lg:px-12 lg:pb-24 lg:pt-16"
     >
-      <div className="mx-auto grid max-w-[1440px] items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+      <div className="mx-auto grid max-w-360 items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
         {/* Text content */}
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 22 }}
@@ -84,9 +84,9 @@ export default function Hero() {
             duration: reduceMotion ? 0 : 0.9,
             delay: reduceMotion ? 0 : 0.15,
           }}
-          className="relative order-1 mx-auto w-full max-w-[590px] lg:order-2"
+          className="relative order-1 mx-auto w-full max-w-147.5 lg:order-2"
         >
-          <div className="relative aspect-[4/4.5] overflow-hidden rounded-[1.5rem] bg-[#f4f5f2] sm:rounded-[2rem]">
+          <div className="relative aspect-4/4.5 overflow-hidden rounded-3xl bg-[#f4f5f2] sm:rounded-4xl">
             <Image
               src="/Tarek_Hero.jpg"
               alt="Portrait of your dietitian and fitness coach"
@@ -95,7 +95,7 @@ export default function Hero() {
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover object-top"
             />
-            <div className="absolute inset-x-0 bottom-0 z-10 h-1/3 bg-gradient-to-t from-[#242824]/35 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 z-10 h-1/3 bg-linear-to-t from-[#242824]/35 to-transparent" />
 
             <div className="absolute inset-x-6 bottom-6 z-20 sm:inset-x-8 sm:bottom-8">
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/95 sm:text-[11px]">
@@ -103,7 +103,7 @@ export default function Hero() {
               </p>
 
               <div className="mt-3 flex items-end justify-between gap-4 sm:mt-4">
-                <p className="max-w-[280px] text-[1.7rem] font-medium leading-[1.12] tracking-[-0.045em] text-white sm:text-3xl">
+                <p className="max-w-70 text-[1.7rem] font-medium leading-[1.12] tracking-[-0.045em] text-white sm:text-3xl">
                   Progress that fits real life.
                 </p>
 
@@ -113,7 +113,7 @@ export default function Hero() {
           </div>
 
           {/* Fine accent line */}
-          <div className="absolute -bottom-3 -right-3 -z-10 h-2/3 w-2/3 rounded-[1.5rem] border border-[#b7d99b]/70 sm:-bottom-4 sm:-right-4 sm:rounded-[2rem]" />
+          <div className="absolute -bottom-3 -right-3 -z-10 h-2/3 w-2/3 rounded-3xl border border-[#b7d99b]/70 sm:-bottom-4 sm:-right-4 sm:rounded-4xl" />
 
           <div className="absolute -left-3 top-8 flex items-center gap-3 rounded-xl border border-[#e7e9e5] bg-white px-4 py-3 shadow-sm sm:-left-6 sm:top-12 sm:px-5">
             <span className="h-2 w-2 rounded-full bg-[#b7d99b]" />

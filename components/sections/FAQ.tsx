@@ -1,40 +1,38 @@
 "use client";
 
-import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, Plus } from "lucide-react";
-
-const questions = [
-  {
-    question: "How does nutrition coaching work?",
-    answer:
-      "The process begins by discussing your goals, preferences, lifestyle, and current habits. The approach and support offered will depend on the services confirmed by the professional.",
-  },
-  {
-    question: "Can I get a personalized workout program?",
-    answer:
-      "Workout programming can be tailored to your goals, experience, available equipment, and schedule. Contact me to discuss the type of program you are looking for.",
-  },
-  {
-    question: "Do you offer private training sessions?",
-    answer:
-      "Private training is one of the services featured on this website. Contact me to confirm session availability, location, and arrangements.",
-  },
-  {
-    question: "Can I combine nutrition and training?",
-    answer:
-      "Nutrition coaching and workout programming can be discussed together so the approach fits your goals and routine. The available options will depend on the services offered.",
-  },
-  {
-    question: "How do I get started?",
-    answer:
-      "Use the contact section to reach out through WhatsApp or email. Share your goals and the service you are interested in, and we can discuss the next steps.",
-  },
-];
+import { useFaqViewModel } from "./faq/viewModel";
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
   const reduceMotion = useReducedMotion();
+  const { items, openIndex, isLoading, error, toggleItem } = useFaqViewModel();
+
+  if (isLoading) {
+    return (
+      <section
+        id="faq"
+        className="scroll-mt-24 bg-[#F7F8F6] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24"
+      >
+        <div className="mx-auto max-w-[1400px]">
+          <p className="text-sm text-[#737971]">Loading questions...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section
+        id="faq"
+        className="scroll-mt-24 bg-[#F7F8F6] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24"
+      >
+        <div className="mx-auto max-w-[1400px]">
+          <p className="text-sm text-[#737971]">Unable to load questions.</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -83,7 +81,7 @@ export default function FAQ() {
 
         {/* Accordion */}
         <div className="border-y border-[#DDE1DA]">
-          {questions.map((item, index) => {
+          {items.map((item, index) => {
             const isOpen = openIndex === index;
             const answerId = `faq-answer-${index}`;
 
@@ -103,7 +101,7 @@ export default function FAQ() {
                   type="button"
                   aria-expanded={isOpen}
                   aria-controls={answerId}
-                  onClick={() => setOpenIndex(isOpen ? null : index)}
+                  onClick={() => toggleItem(index)}
                   className="flex w-full items-center justify-between gap-5 py-5 text-left sm:py-6"
                 >
                   <span

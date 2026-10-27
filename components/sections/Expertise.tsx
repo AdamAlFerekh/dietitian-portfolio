@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   ArrowDownRight,
@@ -10,55 +9,44 @@ import {
   Leaf,
   UserRound,
 } from "lucide-react";
+import { useExpertiseViewModel } from "./expertise/viewModel";
 
-const services = [
-  {
-    number: "01",
-    title: "Nutrition Coaching",
-    description:
-      "Build a more thoughtful approach to eating with guidance shaped around your goals and everyday routine.",
-    icon: Leaf,
-    details: [
-      "Guidance tailored to your personal goals",
-      "Practical habits for everyday life",
-      "A sustainable approach to nutrition",
-    ],
-    audience:
-      "For people looking to improve their eating habits and overall wellbeing.",
-  },
-  {
-    number: "02",
-    title: "Workout Programming",
-    description:
-      "Follow a structured training plan designed around your fitness goals, experience, and available schedule.",
-    icon: Dumbbell,
-    details: [
-      "Training structure built around your goals",
-      "Exercises organized into a clear routine",
-      "A plan designed around your schedule",
-    ],
-    audience:
-      "For people who want more structure and direction in their training.",
-  },
-  {
-    number: "03",
-    title: "Private Training",
-    description:
-      "Get more focused guidance during your training sessions, with attention to your technique and progress.",
-    icon: UserRound,
-    details: [
-      "Individual attention during sessions",
-      "Guidance on exercise technique",
-      "Training support aligned with your goals",
-    ],
-    audience:
-      "For people who prefer direct coaching and a more personal training experience.",
-  },
-];
+const serviceIcons = {
+  leaf: Leaf,
+  dumbbell: Dumbbell,
+  "user-round": UserRound,
+};
 
 export default function Expertise() {
-  const [expandedService, setExpandedService] = useState<number | null>(null);
   const reduceMotion = useReducedMotion();
+  const { services, expandedService, isLoading, error, toggleService } =
+    useExpertiseViewModel();
+
+  if (isLoading) {
+    return (
+      <section
+        id="expertise"
+        className="bg-[#F7F8F6] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24"
+      >
+        <div className="mx-auto max-w-[1440px]">
+          <p className="text-sm text-[#737971]">Loading services...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section
+        id="expertise"
+        className="bg-[#F7F8F6] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24"
+      >
+        <div className="mx-auto max-w-[1440px]">
+          <p className="text-sm text-[#737971]">Unable to load services.</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -95,9 +83,9 @@ export default function Expertise() {
           </p>
         </motion.div>
 
-        <div className="mt-10 grid gap-4 md:mt-12 md:grid-cols-3">
+        <div className="mt-10 grid items-start gap-4 md:mt-12 md:grid-cols-3">
           {services.map((service, index) => {
-            const Icon = service.icon;
+            const Icon = serviceIcons[service.icon];
             const isExpanded = expandedService === index;
 
             return (
@@ -138,9 +126,7 @@ export default function Expertise() {
                     type="button"
                     aria-expanded={isExpanded}
                     aria-controls={`service-details-${service.number}`}
-                    onClick={() =>
-                      setExpandedService(isExpanded ? null : index)
-                    }
+                    onClick={() => toggleService(index)}
                     className="flex w-full items-center justify-between gap-3 text-left text-sm font-semibold text-[#242824] transition-colors hover:text-[#789F3D]"
                   >
                     <span>{isExpanded ? "Show less" : "Explore service"}</span>

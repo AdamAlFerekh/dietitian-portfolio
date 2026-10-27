@@ -11,20 +11,21 @@ const message =
 export default function FloatingWhatsApp() {
   const reduceMotion = useReducedMotion();
 
-  const whatsappHref = WHATSAPP_NUMBER
-    ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
-    : "#contact";
+  if (!WHATSAPP_NUMBER) {
+    return null;
+  }
+
+  const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    message,
+  )}`;
 
   return (
     <motion.a
       href={whatsappHref}
-      target={WHATSAPP_NUMBER ? "_blank" : undefined}
-      rel={WHATSAPP_NUMBER ? "noreferrer" : undefined}
+      target="_blank"
+      rel="noreferrer"
       aria-label="Contact via WhatsApp"
       title="Chat on WhatsApp"
-      onClick={(event) => {
-        if (!WHATSAPP_NUMBER) event.preventDefault();
-      }}
       initial={reduceMotion ? false : { opacity: 0, scale: 0.8, y: 12 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: reduceMotion ? 0 : 0.4, delay: 0.5 }}

@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dietitian Portfolio Demo
+
+A responsive, single-page portfolio website concept for a fictional dietitian and wellness coach. Built with Next.js and TypeScript, this project showcases a polished frontend experience using illustrative content and demo-safe interactions.
+
+## Demo Disclaimer
+
+This is a fictional portfolio concept. The profile, qualifications, timeline entries, and contact information are illustrative and do not represent verified professional credentials, real client data, or live business details.
+
+## Features
+
+- Hero section with brand positioning and calls to action
+- About section presenting a client-focused wellness philosophy
+- Expertise and service cards covering nutrition coaching, programming, and private training
+- Timeline section featuring illustrative professional milestones
+- Certificates section with clearly labeled sample content
+- FAQ accordion for common client questions
+- Contact section with demo-safe interactions rather than live integrations
+- Responsive layout with motion-based transitions and reduced-motion support
+
+## Tech Stack
+
+- **Framework:** Next.js App Router
+- **Language:** TypeScript
+- **UI:** React 19 and Tailwind CSS
+- **Animations:** Motion
+- **Icons:** Lucide React
+
+## Architecture
+
+Selected page sections use a Model–View–ViewModel (MVVM) structure to separate data, application logic, and UI presentation.
+
+The architecture includes models for data types, repositories for accessing data, and ViewModels for managing section-specific UI state and actions. This is a frontend-only implementation; no backend or API integration is currently included.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js
+- npm
+
+### Installation
+
+Clone the repository and navigate to the project directory, then install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Validation and Production Commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run ESLint:
 
-## Learn More
+```bash
+npm run lint
+```
 
-To learn more about Next.js, take a look at the following resources:
+Create a production build:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Run the production build locally:
 
-## Deploy on Vercel
+```bash
+npm run start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `app/` — Application entry point, page, global styles, and root layout
+- `components/layout/` — Shared layout components, including the navbar, footer, and floating WhatsApp action
+- `components/sections/` — Page sections and supporting data, models, repositories, and ViewModels
+- `public/` — Static assets
+
+## Current Limitations
+
+This project is intentionally frontend-only. It does not include a backend, authentication, payment processing, or live contact integrations. The profile and professional details are sample content and must be replaced with verified information before the website is used as a real professional portfolio.

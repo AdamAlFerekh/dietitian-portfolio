@@ -11,16 +11,18 @@ const whatsappMessage =
 
 export default function Contact() {
   const reduceMotion = useReducedMotion();
+  const hasWhatsApp = Boolean(WHATSAPP_NUMBER);
+  const hasEmail = Boolean(CONTACT_EMAIL);
 
-  const whatsappHref = WHATSAPP_NUMBER
+  const whatsappHref = hasWhatsApp
     ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`
-    : "#contact";
+    : undefined;
 
-  const emailHref = CONTACT_EMAIL
+  const emailHref = hasEmail
     ? `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
         "Nutrition and Fitness Inquiry",
       )}&body=${encodeURIComponent(whatsappMessage)}`
-    : "#contact";
+    : undefined;
 
   return (
     <section
@@ -79,76 +81,103 @@ export default function Contact() {
 
             {/* Contact options */}
             <div className="space-y-3">
-              <a
-                href={whatsappHref}
-                target={WHATSAPP_NUMBER ? "_blank" : undefined}
-                rel={WHATSAPP_NUMBER ? "noopener noreferrer" : undefined}
-                aria-disabled={!WHATSAPP_NUMBER}
-                onClick={(event) => {
-                  if (!WHATSAPP_NUMBER) event.preventDefault();
-                }}
-                className={`group flex items-center justify-between gap-4 border p-4 transition-colors duration-300 sm:p-5 ${
-                  WHATSAPP_NUMBER
-                    ? "border-[#B7D99B] bg-[#B7D99B] text-[#242824] hover:bg-[#C9E4B1]"
-                    : "cursor-not-allowed border-white/10 bg-[#B7D99B]/50 text-[#242824]/65"
-                }`}
-              >
-                <span className="flex min-w-0 items-center gap-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-[#242824]/10">
-                    <MessageCircle size={21} />
-                  </span>
-                  <span>
-                    <span className="block text-sm font-semibold sm:text-base">
-                      Chat on WhatsApp
+              {hasWhatsApp ? (
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center justify-between gap-4 border border-[#B7D99B] bg-[#B7D99B] p-4 text-[#242824] transition-colors duration-300 hover:bg-[#C9E4B1] sm:p-5"
+                >
+                  <span className="flex min-w-0 items-center gap-4">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-[#242824]/10">
+                      <MessageCircle size={21} />
                     </span>
-                    <span className="mt-1 block text-xs opacity-70">
-                      Start a conversation
+                    <span>
+                      <span className="block text-sm font-semibold sm:text-base">
+                        Chat on WhatsApp
+                      </span>
+                      <span className="mt-1 block text-xs opacity-70">
+                        Start a conversation
+                      </span>
                     </span>
                   </span>
-                </span>
 
-                <ArrowUpRight
-                  size={20}
-                  className="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                />
-              </a>
-
-              <a
-                href={emailHref}
-                aria-disabled={!CONTACT_EMAIL}
-                onClick={(event) => {
-                  if (!CONTACT_EMAIL) event.preventDefault();
-                }}
-                className={`group flex items-center justify-between gap-4 border p-4 transition-colors duration-300 sm:p-5 ${
-                  CONTACT_EMAIL
-                    ? "border-white/20 text-white hover:border-[#B7D99B]/60 hover:bg-white/[0.04]"
-                    : "cursor-not-allowed border-white/10 text-white/50"
-                }`}
-              >
-                <span className="flex min-w-0 items-center gap-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-white/15">
-                    <Mail size={20} />
-                  </span>
-                  <span>
-                    <span className="block text-sm font-semibold sm:text-base">
-                      Send an email
+                  <ArrowUpRight
+                    size={20}
+                    className="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
+                </a>
+              ) : (
+                <div className="flex items-center justify-between gap-4 border border-white/10 bg-[#B7D99B]/20 p-4 text-white/60 sm:p-5">
+                  <span className="flex min-w-0 items-center gap-4">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-[#242824]/10">
+                      <MessageCircle size={21} />
                     </span>
-                    <span className="mt-1 block text-xs text-white/50">
-                      Questions and inquiries
+                    <span>
+                      <span className="block text-sm font-semibold sm:text-base">
+                        WhatsApp
+                      </span>
+                      <span className="mt-1 block text-xs opacity-70">
+                        Demo contact not available
+                      </span>
                     </span>
                   </span>
-                </span>
 
-                <ArrowUpRight
-                  size={20}
-                  className="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                />
-              </a>
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/45">
+                    Demo
+                  </span>
+                </div>
+              )}
 
-              {!WHATSAPP_NUMBER && !CONTACT_EMAIL && (
+              {hasEmail ? (
+                <a
+                  href={emailHref}
+                  className="group flex items-center justify-between gap-4 border border-white/20 p-4 text-white transition-colors duration-300 hover:border-[#B7D99B]/60 hover:bg-white/[0.04] sm:p-5"
+                >
+                  <span className="flex min-w-0 items-center gap-4">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-white/15">
+                      <Mail size={20} />
+                    </span>
+                    <span>
+                      <span className="block text-sm font-semibold sm:text-base">
+                        Send an email
+                      </span>
+                      <span className="mt-1 block text-xs text-white/50">
+                        Questions and inquiries
+                      </span>
+                    </span>
+                  </span>
+
+                  <ArrowUpRight
+                    size={20}
+                    className="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
+                </a>
+              ) : (
+                <div className="flex items-center justify-between gap-4 border border-white/10 p-4 text-white/55 sm:p-5">
+                  <span className="flex min-w-0 items-center gap-4">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-white/15">
+                      <Mail size={20} />
+                    </span>
+                    <span>
+                      <span className="block text-sm font-semibold sm:text-base">
+                        Email
+                      </span>
+                      <span className="mt-1 block text-xs text-white/45">
+                        Demo contact not available
+                      </span>
+                    </span>
+                  </span>
+
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/45">
+                    Demo
+                  </span>
+                </div>
+              )}
+
+              {!hasWhatsApp && !hasEmail && (
                 <p className="pt-2 text-xs leading-6 text-white/45">
-                  Contact options will activate when the real contact details
-                  are added.
+                  Contact details are intentionally left empty for this demo.
                 </p>
               )}
             </div>
