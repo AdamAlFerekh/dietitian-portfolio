@@ -30,15 +30,19 @@ export default function About() {
 
           <div className="relative aspect-[4/4.5] overflow-hidden bg-[#F7F8F6]">
             {/* Replace with his real portrait when available. */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#F7F8F6] via-[#ECEEE9] to-[#DDE2D9]" />
+            <img
+              src="/Nutrition_consultation.jpg"
+              alt="Portrait of your dietitian and fitness coach"
+              className="h-full w-full object-cover"
+            />
 
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#242824]/10 to-transparent" />
 
             <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8 sm:right-8">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#626860]">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#9BCB63]">
                 Beyond the plan
               </span>
-              <p className="mt-3 max-w-xs text-2xl font-medium leading-tight tracking-tight text-[#242824] sm:text-3xl">
+              <p className="mt-3 max-w-xs text-2xl font-medium leading-tight tracking-tight text-white sm:text-3xl">
                 Knowledge. Purpose. Progress.
               </p>
             </div>
@@ -80,9 +84,9 @@ export default function About() {
           </p>
 
           <p className="mt-4 text-sm leading-7 text-[#737971] sm:text-base sm:leading-8">
-            This fictional profile is designed to showcase a thoughtful, client-led
-            wellness philosophy rooted in education, consistency, and individualized
-            guidance for long-term health and confidence.
+            This fictional profile is designed to showcase a thoughtful,
+            client-led wellness philosophy rooted in education, consistency, and
+            individualized guidance for long-term health and confidence.
           </p>
 
           <div className="mt-8 border-y border-[#E7E9E5] py-5">

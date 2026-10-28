@@ -88,7 +88,7 @@ export default function Hero() {
         >
           <div className="relative aspect-4/4.5 overflow-hidden rounded-3xl bg-[#f4f5f2] sm:rounded-4xl">
             <Image
-              src="/Tarek_Hero.jpg"
+              src="/Hero_personal_trainer.jpg"
               alt="Portrait of your dietitian and fitness coach"
               fill
               priority
